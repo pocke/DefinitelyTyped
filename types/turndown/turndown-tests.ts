@@ -1,19 +1,28 @@
 import TurndownService = require('turndown');
 
-const replacementFunction: TurndownService.ReplacementFunction =
-    (content: string, node: TurndownService.Node, options: TurndownService.Options) => content;
+const replacementFunction: TurndownService.ReplacementFunction = (
+    content: string,
+    node: TurndownService.Node,
+    options: TurndownService.Options,
+) => {
+    if (node.isBlock) {
+        return '\n' + content + '\n';
+    } else {
+        return content;
+    }
+};
 
 const options: TurndownService.Options = {
-    headingStyle: "setext",
+    headingStyle: 'setext',
     hr: '',
     br: '',
-    bulletListMarker: "-",
-    codeBlockStyle: "indented",
-    emDelimiter: "_",
-    fence: "```",
-    strongDelimiter: "__",
-    linkStyle: "inlined",
-    linkReferenceStyle: "full",
+    bulletListMarker: '-',
+    codeBlockStyle: 'indented',
+    emDelimiter: '_',
+    fence: '```',
+    strongDelimiter: '__',
+    linkStyle: 'inlined',
+    linkReferenceStyle: 'full',
 
     keepReplacement: replacementFunction,
     blankReplacement: replacementFunction,
@@ -38,3 +47,4 @@ turndownService.use(plugin);
 
 const escpedString = turndownService.escape('');
 const markdownTitle = turndownService.turndown('<h1>Title</h1>');
+const markdownFromNode = turndownService.turndown(document.getElementById('foo')!);
